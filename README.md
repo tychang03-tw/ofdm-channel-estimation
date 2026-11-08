@@ -11,7 +11,7 @@
 ## 系統架構
 
 <p align="center">
-  <img src="figures/system_architecture.png" alt="OFDM 系統架構圖" width="600">
+  <img src="figures/系統架構圖.png" alt="OFDM 系統架構圖" width="600">
 </p>
 
 ## 模擬參數
