@@ -10,11 +10,9 @@
 
 ## 系統架構
 
-```
-QPSK 調變 → 插入領航信號 → IFFT → 加入循環字首 (CP)
-        → 多路徑通道 + AWGN
-        → 移除 CP → FFT → 通道估測 → 等化 → 判決 → 計算 BER
-```
+<p align="center">
+  <img src="figures/system_architecture.png" alt="OFDM 系統架構圖" width="600">
+</p>
 
 ## 模擬參數
 
@@ -74,36 +72,48 @@ QPSK 調變 → 插入領航信號 → IFFT → 加入循環字首 (CP)
 
 > 程式碼：[`OFDM_100p_channel.m`](OFDM_100p_channel.m)（最大通道延遲 100 點；衰減係數 α 可在通道產生處 `g = exp(-α*[0:99]).*n` 修改）
 
+<div align="center">
+
 | 衰減係數 α = 0.05 | 衰減係數 α = 0.001 |
 | :---: | :---: |
-| <img src="figures/衰減係數0.05_4種方法.png.jpg" alt="四種方法 α=0.05" width="380"> | <img src="figures/衰減係數0.001_4種方法.png.jpg" alt="四種方法 α=0.001" width="380"> |
+| <img src="figures/衰減係數0.05_4種方法.jpg" alt="四種方法 α=0.05" width="320"> | <img src="figures/衰減係數0.001_4種方法.jpg" alt="四種方法 α=0.001" width="320"> |
+
+</div>
 
 - **α = 0.05**：通道能量集中在前幾個通道點，頻率響應變化平緩，四種方法表現接近；時域 LS 法略佳，DFT 法略差。
 - **α = 0.001**：各通道點能量相近，通道頻率選擇性強。線性內插法無法追上快速變化的頻率響應，BER 在高 SNR 時出現約 8×10⁻² 的錯誤平台；DFT 法與 LS 法仍能隨 SNR 下降，其中**時域 LS 法表現最好**（20 dB 時約 5×10⁻³）。
 
 ### 2. 頻率響應估測
 
+<div align="center">
+
 | 衰減係數 α = 0.05 | 衰減係數 α = 0.001 |
 | :---: | :---: |
-| <img src="figures/衰減係數0.05_頻譜.png.jpg" alt="頻譜 α=0.05" width="380"> | <img src="figures/衰減係數0.001_頻譜.png.jpg" alt="頻譜 α=0.001" width="380"> |
+| <img src="figures/衰減係數0.05_頻譜.jpg" alt="頻譜 α=0.05" width="320"> | <img src="figures/衰減係數0.001_頻譜.jpg" alt="頻譜 α=0.001" width="320"> |
+
+</div>
 
 藍線為真實通道頻率響應，橙線為估測結果。中間第 842–1208 個子載波為保護頻帶（不傳送資料），因此不需估測。α = 0.001 時通道起伏劇烈得多，估測難度也較高。
 
 ### 3. 時域 LS 法：修正參數有無之比較
 
 <p align="center">
-  <img src="figures/LS修正參數比較.png.jpg" alt="時域 LS 修正參數比較" width="400">
+  <img src="figures/LS修正參數比較.jpg" alt="時域 LS 修正參數比較" width="340">
 </p>
 
 由於保護頻帶使可用的領航信號有限，當通道延遲點數越大，時域 LS 的矩陣 `X̄ᴴX̄` 越接近奇異，求反矩陣時數值不穩定。不加修正參數時，BER 停留在約 1.3×10⁻¹ 幾乎不再下降；加上修正參數 λ 後，20 dB 時 BER 可降至約 6×10⁻³，可見修正參數對此方法非常關鍵。
 
 ### 4. 不同最大通道延遲點數之比較（30 / 80 / 100 點）
 
+<div align="center">
+
 | 線性內插法 | DFT 法 |
 | :---: | :---: |
-| <img src="figures/線性內插_不同通道延遲.png.jpg" alt="線性內插 不同通道延遲" width="380"> | <img src="figures/DFT_不同通道延遲.png.jpg" alt="DFT 不同通道延遲" width="380"> |
+| <img src="figures/線性內插_不同通道延遲.jpg" alt="線性內插 不同通道延遲" width="320"> | <img src="figures/DFT_不同通道延遲.jpg" alt="DFT 不同通道延遲" width="320"> |
 | **傳統 LS 法** | **時域 LS 法** |
-| <img src="figures/傳統LS_不同通道延遲.png.jpg" alt="傳統 LS 不同通道延遲" width="380"> | <img src="figures/時域LS_不同通道延遲.png.jpg" alt="時域 LS 不同通道延遲" width="380"> |
+| <img src="figures/傳統LS_不同通道延遲.jpg" alt="傳統 LS 不同通道延遲" width="320"> | <img src="figures/時域LS_不同通道延遲.jpg" alt="時域 LS 不同通道延遲" width="320"> |
+
+</div>
 
 - **線性內插法**對通道延遲最敏感：30 點時 20 dB 的 BER 約 7.5×10⁻³，80 點升至約 4×10⁻²，100 點時 BER 約停在 8.5×10⁻² 幾乎不再下降。通道延遲越長，頻率響應變化越快，領航間距 12 個子載波已不足以靠線性內插追上。
 - **DFT 法**幾乎不受通道延遲影響，三條曲線非常接近（20 dB 時約 8×10⁻³ ~ 1×10⁻²）。
