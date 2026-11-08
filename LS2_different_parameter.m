@@ -1,3 +1,6 @@
+% 時域 LS 法：不同修正參數比較
+% 最大通道延遲 100 點、α = 0.001；程式含 λ = 10^-1～10^-5 與無修正參數共 6 組，預設只執行 10^-5 與無修正參數，其他參數需手動取消迴圈內對應區塊與檔尾畫圖段落的註解
+% 輸出：BER vs. SNR
 clear
 
 num = 20 ;       %幾組 OFDM symbol
@@ -305,8 +308,8 @@ end
 % ylabel('(BER)');
 % grid;
 
-LS2_e1=sum(error9)./20;
-LS2_e2=sum(error8)./20;
+LS2_e1=sum(error8)./20;
+LS2_e2=sum(error9)./20;
 figure;
 semilogy(db,LS2_e1,'m-',db,LS2_e2,'c-');
 title('修正參數有無之錯誤率曲線圖');

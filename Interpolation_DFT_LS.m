@@ -1,3 +1,6 @@
+% OFDM 通道估測（早期版本）：線性內插、DFT、傳統 LS 比較
+% 最大通道延遲 100 點、衰減係數 α = 0.05，傳統 LS 的修正參數 λ = 10^-1
+% 輸出：BER vs. SNR
 clear
 clc
 num = 20 ;       %幾組 OFDM symbol 

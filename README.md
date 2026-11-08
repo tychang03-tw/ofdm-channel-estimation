@@ -11,7 +11,7 @@
 ## 系統架構
 
 <p align="center">
-  <img src="figures/系統架構圖.png" alt="OFDM 系統架構圖" width="600">
+  <img src="figures/system_architecture.png" alt="OFDM 系統架構圖" width="600">
 </p>
 
 ## 模擬參數
@@ -56,7 +56,7 @@
 | [`OFDM_30p_channel.m`](OFDM_30p_channel.m) | 同上，通道最大延遲改為 30 點 |
 | [`Interpolation_DFT_LS.m`](Interpolation_DFT_LS.m) | 早期版本：比較線性內插、DFT、傳統 LS 三種方法 |
 | [`LS_LS2.m`](LS_LS2.m) | 比較傳統 LS 與時域 LS 在通道最大延遲 100 / 80 / 30 點時的 BER |
-| [`LS2_different_parameter.m`](LS2_different_parameter.m) | 時域 LS 法在不同修正參數（10⁻¹ ~ 10⁻⁶）下的效能比較 |
+| [`LS2_different_parameter.m`](LS2_different_parameter.m) | 時域 LS 法在不同修正參數（10⁻¹ ~ 10⁻⁵）下的效能比較；程式預設只執行 10⁻⁵ 與無修正參數，其他參數需手動取消註解（迴圈內對應的計算區塊與檔尾的畫圖段落） |
 
 ## 執行方式
 
@@ -76,7 +76,7 @@
 
 | 衰減係數 α = 0.05 | 衰減係數 α = 0.001 |
 | :---: | :---: |
-| <img src="figures/衰減係數0.05_4種方法.jpg" alt="四種方法 α=0.05" width="320"> | <img src="figures/衰減係數0.001_4種方法.jpg" alt="四種方法 α=0.001" width="320"> |
+| <img src="figures/ber_4methods_alpha0.05.jpg" alt="四種方法 α=0.05" width="320"> | <img src="figures/ber_4methods_alpha0.001.jpg" alt="四種方法 α=0.001" width="320"> |
 
 </div>
 
@@ -89,7 +89,7 @@
 
 | 衰減係數 α = 0.05 | 衰減係數 α = 0.001 |
 | :---: | :---: |
-| <img src="figures/衰減係數0.05_頻譜.jpg" alt="頻譜 α=0.05" width="320"> | <img src="figures/衰減係數0.001_頻譜.jpg" alt="頻譜 α=0.001" width="320"> |
+| <img src="figures/freq_response_alpha0.05.jpg" alt="頻譜 α=0.05" width="320"> | <img src="figures/freq_response_alpha0.001.jpg" alt="頻譜 α=0.001" width="320"> |
 
 </div>
 
@@ -98,7 +98,7 @@
 ### 3. 時域 LS 法：修正參數有無之比較
 
 <p align="center">
-  <img src="figures/LS修正參數比較.jpg" alt="時域 LS 修正參數比較" width="340">
+  <img src="figures/time_ls_regularization.jpg" alt="時域 LS 修正參數比較" width="340">
 </p>
 
 由於保護頻帶使可用的領航信號有限，當通道延遲點數越大，時域 LS 的矩陣 `X̄ᴴX̄` 越接近奇異，求反矩陣時數值不穩定。不加修正參數時，BER 停留在約 1.3×10⁻¹ 幾乎不再下降；加上修正參數 λ 後，20 dB 時 BER 可降至約 6×10⁻³，可見修正參數對此方法非常關鍵。
@@ -109,9 +109,9 @@
 
 | 線性內插法 | DFT 法 |
 | :---: | :---: |
-| <img src="figures/線性內插_不同通道延遲.jpg" alt="線性內插 不同通道延遲" width="320"> | <img src="figures/DFT_不同通道延遲.jpg" alt="DFT 不同通道延遲" width="320"> |
+| <img src="figures/linear_interp_vs_delay.jpg" alt="線性內插 不同通道延遲" width="320"> | <img src="figures/dft_vs_delay.jpg" alt="DFT 不同通道延遲" width="320"> |
 | **傳統 LS 法** | **時域 LS 法** |
-| <img src="figures/傳統LS_不同通道延遲.jpg" alt="傳統 LS 不同通道延遲" width="320"> | <img src="figures/時域LS_不同通道延遲.jpg" alt="時域 LS 不同通道延遲" width="320"> |
+| <img src="figures/ls_vs_delay.jpg" alt="傳統 LS 不同通道延遲" width="320"> | <img src="figures/time_ls_vs_delay.jpg" alt="時域 LS 不同通道延遲" width="320"> |
 
 </div>
 

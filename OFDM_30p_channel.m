@@ -1,3 +1,6 @@
+% OFDM 通道估測：四種方法 BER 比較（最大通道延遲 30 點）
+% 與 OFDM_100p_channel.m 相同，只把通道最大延遲改為 30 點；衰減係數 α 在 g = exp(-α*[0:29]).*n 修改
+% 輸出：BER vs. SNR
 clear
 clc
 
