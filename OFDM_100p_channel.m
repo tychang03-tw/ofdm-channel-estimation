@@ -297,30 +297,21 @@ LS20_e=sum(error5)./20;
 % ylabel('(log)');
 % grid;
 
-% figure;
-% semilogy(db,Linear_e,'g-');
-% title('錯誤率曲線圖');
-% legend('時域LS法-最大通道延遲點數100點');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
-
-% figure;
-% semilogy(db,LS2_e,'k-');
-% title('錯誤率曲線圖');
-% legend('時域LS法-修正參數10^-^6');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
-
 figure;
 semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,errorLS20, 'c-');
 title('錯誤率曲線圖');
-legend('Linear Interpotation Method','DFT Method','LS Method','Time Domain LS Method','Time Domain LS Method without correction parameter','Location','northwest');
+legend('Linear Interpolation Method','DFT Method','LS Method','Time Domain LS Method','Time Domain LS Method without correction parameter','Location','northwest');
 xlabel('(dB)');
 ylabel('(log)');
 grid;
 
+%----------------------------------------------------------------
+% 頻譜響應估測圖（預設不執行，需要時將下方程式碼取消註解）
+% 藍線：真實通道頻率響應（通道 g 補零至 2048 點後做 FFT）
+% 橙線：時域 LS 法估測的頻率響應（第 1 個 OFDM 符元）
+%       第一張圖為加上修正參數（fft_HP_LS），第二張圖為沒有修正參數（fft_HP_LS0）
+% 註：迴圈結束後保留的是最後一個通道、SNR = 20 dB 時的結果
+%----------------------------------------------------------------
 %  a1=g;
 %  k=1:2048;
 % a1(2048)=0;

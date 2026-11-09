@@ -176,10 +176,10 @@ for j=1:20
         errorDFT(:,snr)=error_rate_DFT;
         %----------------------------------------------------------------
         % %case3 LS法
-        Le=100;
+        Le=30;
         f1 = exp(-1i * 2 * pi * (12.*((0:70).')) * (0:Le-1) / 2048);% k =12*( 0:70&71:140 ) ;N = 2048;
         f2 = exp(-1i * 2 * pi * (1209+12.*((0:69).')) * (0:Le-1) / 2048);
-        f = [f1;f2];  %f矩陣的設置是N*Le的矩陣 N為領航信號的點數 Le的最佳設置為最大延遲點數(通道點數)
+        f = [f1;f2];  %f矩陣的設置是N*Le的矩陣 N為領航信號的點數 Le為估測的通道點數
         % L(通道點數) < Le < N(領航信號H的個數)
         %生成Hpilot
         for i=1:OFDM_symbol_num
@@ -196,7 +196,7 @@ for j=1:20
             h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
-        h_LS([1:OFDM_symbol_num],[101:OFDM_symbol_length])=0;%估出來的點數為100點 我們補0到2048點 做FFT
+        h_LS([1:OFDM_symbol_num],[31:OFDM_symbol_length])=0;%估出來的點數為Le點 我們補0到2048點 做FFT
         for i = 1:OFDM_symbol_num
             fft_h_LS(i,[1:OFDM_symbol_length]) = fft(h_LS(i,[1:OFDM_symbol_length]));
         end
@@ -229,8 +229,8 @@ for j=1:20
             hp_ls0=hp0.';
 
         end
-        hp_ls([1:20],[101:2048])=0;% 估出來的點數為100點 我們補0到2048點 做FFT
-        hp_ls0([1:20],[101:2048])=0;
+        hp_ls([1:20],[31:2048])=0;% 估出來的點數為30點 我們補0到2048點 做FFT
+        hp_ls0([1:20],[31:2048])=0;
         for i = 1:OFDM_symbol_num
             fft_HP_LS(i,[1:2048]) = fft(hp_ls(i,[1:2048]));
             fft_HP_LS0(i,[1:2048]) = fft(hp_ls0(i,[1:2048]));
@@ -289,38 +289,30 @@ LS_e=sum(error3)./20;
 LS2_e=sum(error4)./20;
 LS20_e=sum(error5)./20;
 
-% figure;
-% semilogy(db,errorLS2, 'b-',db,errorLS20, 'c-');
-% legend('加上修正參數','沒有加修正參數');
-% title('時域LS法錯誤率曲線圖');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
-
-% figure;
-% semilogy(db,Linear_e,'g-');
-% title('錯誤率曲線圖');
-% legend('時域LS法-最大通道延遲點數100點');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
-
-% figure;
-% semilogy(db,LS2_e,'k-');
-% title('錯誤率曲線圖');
-% legend('時域LS法-修正參數10^-^6');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
-
 figure;
-semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,errorLS20, 'c-');
-title('錯誤率曲線圖');
-legend('Linear Interpotation Method','DFT Method','LS Method','Time Domain LS Method','Time Domain LS Method without correction parameter','Location','northwest');
+semilogy(db,errorLS2, 'b-',db,errorLS20, 'c-');
+legend('加上修正參數','沒有加修正參數');
+title('時域LS法錯誤率曲線圖');
 xlabel('(dB)');
 ylabel('(log)');
 grid;
 
+
+figure;
+semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,errorLS20, 'c-');
+title('錯誤率曲線圖');
+legend('Linear Interpolation Method','DFT Method','LS Method','Time Domain LS Method','Time Domain LS Method without correction parameter','Location','northwest');
+xlabel('(dB)');
+ylabel('(log)');
+grid;
+
+%----------------------------------------------------------------
+% 頻譜響應估測圖（預設不執行，需要時將下方程式碼取消註解）
+% 藍線：真實通道頻率響應（通道 g 補零至 2048 點後做 FFT）
+% 橙線：時域 LS 法估測的頻率響應（第 1 個 OFDM 符元）
+%       第一張圖為加上修正參數（fft_HP_LS），第二張圖為沒有修正參數（fft_HP_LS0）
+% 註：迴圈結束後保留的是最後一個通道、SNR = 20 dB 時的結果
+%----------------------------------------------------------------
 %  a1=g;
 %  k=1:2048;
 % a1(2048)=0;
