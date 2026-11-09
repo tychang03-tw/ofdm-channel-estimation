@@ -318,21 +318,3 @@ xlabel('(dB)');
 ylabel('(BER)');
 grid;
 
-% LS2_e=sum(error9)./20;
-% figure;
-% semilogy(db,LS2_e,'c-');
-% title('錯誤率曲線圖');
-% legend('時域LS法-修正參數10^-^6');
-% xlabel('(dB)');
-% ylabel('(BER)');
-% grid;
-
-
-
-
-
-
-
-
-
-
