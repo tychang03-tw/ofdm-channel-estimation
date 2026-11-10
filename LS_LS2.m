@@ -1,5 +1,5 @@
 % 傳統 LS 與時域 LS：不同最大通道延遲點數比較
-% 衰減係數 α = 0.001，最大通道延遲 100 / 80 / 30 點，兩種方法的修正參數皆為 λ = 10^-3
+% 衰減係數 α = 0.001，最大通道延遲 100 / 80 / 30 點，兩種方法的修正參數皆為 λ = 10^-5
 % 輸出：傳統 LS、時域 LS 各一張 BER vs. SNR（三種延遲點數）
 clear
 clc
@@ -160,10 +160,11 @@ for j=1:20
         h_ls=zeros(Le,num);
         for i=1:num
             hn([1:141],1)=H3(i,[1:141]);
-            h_ls([1:Le],i)=inv(f'*f+10^-3.*eye(Le))*f'*hn;
+            h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
-        h_LS([1:num],[142:length1])=0;%估出來的點數為100點 我們補0到2048點 做FFT
+        h_LS([1:num],[101:length1])=0;%估出來的點數為100點 我們補0到2048點 做FFT
+
         for i = 1:num
             fft_h_LS(i,[1:length1]) = fft(h_LS(i,[1:length1]));
         end
@@ -190,12 +191,12 @@ for j=1:20
             ifft_ysignal(i,[1:2048])=ifft(ysignal(i,[1:2048]));
             yy([1:2048],1)=ifft_ysignal(i,[1:2048]); %出通道後的所有信號(時域)
             %有修正參數
-            hp([1:100],i)=inv(x_bar1(:,:,i)'*x_bar1(:,:,i)+10^-3.*eye(100))*x_bar1(:,:,i)'*yy;
+            hp([1:100],i)=inv(x_bar1(:,:,i)'*x_bar1(:,:,i)+10^-5.*eye(100))*x_bar1(:,:,i)'*yy;
             hp_ls=hp.';
 
         end
         hp_ls([1:20],[101:2048])=0;% 估出來的點數為100點 我們補0到2048點 做FFT
-        hp_ls0([1:20],[101:2048])=0;
+        
         for i = 1:num
             fft_HP_LS(i,[1:2048]) = fft(hp_ls(i,[1:2048]));
         end
@@ -278,10 +279,10 @@ for j=1:20
         h_ls=zeros(Le,num);
         for i=1:num
             hn([1:141],1)=H3(i,[1:141]);
-            h_ls([1:Le],i)=inv(f'*f+10^-3.*eye(Le))*f'*hn;
+            h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
-        h_LS([1:num],[142:length1])=0;%估出來的點數為100點 我們補0到2048點 做FFT
+        h_LS([1:num],[81:length1])=0;%估出來的點數為80點 我們補0到2048點 做FFT
         for i = 1:num
             fft_h_LS(i,[1:length1]) = fft(h_LS(i,[1:length1]));
         end
@@ -308,12 +309,12 @@ for j=1:20
             ifft_ysignal(i,[1:2048])=ifft(ysignal(i,[1:2048]));
             yy([1:2048],1)=ifft_ysignal(i,[1:2048]); %出通道後的所有信號(時域)
             %有修正參數
-            hp([1:80],i)=inv(x_bar2(:,:,i)'*x_bar2(:,:,i)+10^-3.*eye(80))*x_bar2(:,:,i)'*yy;
+            hp([1:80],i)=inv(x_bar2(:,:,i)'*x_bar2(:,:,i)+10^-5.*eye(80))*x_bar2(:,:,i)'*yy;
             hp_ls=hp.';
 
         end
-        hp_ls([1:20],[81:2048])=0;% 估出來的點數為100點 我們補0到2048點 做FFT
-        hp_ls0([1:20],[101:2048])=0;
+        hp_ls([1:20],[81:2048])=0;% 估出來的點數為80點 我們補0到2048點 做FFT
+        
         for i = 1:num
             fft_HP_LS(i,[1:2048]) = fft(hp_ls(i,[1:2048]));
         end
@@ -395,10 +396,10 @@ for j=1:20
         h_ls=zeros(Le,num);
         for i=1:num
             hn([1:141],1)=H3(i,[1:141]);
-            h_ls([1:Le],i)=inv(f'*f+10^-3.*eye(Le))*f'*hn;
+            h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
-        h_LS([1:num],[142:length1])=0;%估出來的點數為100點 我們補0到2048點 做FFT
+        h_LS([1:num],[31:length1])=0;%估出來的點數為30點 我們補0到2048點 做FFT
         for i = 1:num
             fft_h_LS(i,[1:length1]) = fft(h_LS(i,[1:length1]));
         end
@@ -425,11 +426,11 @@ for j=1:20
             ifft_ysignal(i,[1:2048])=ifft(ysignal(i,[1:2048]));
             yy([1:2048],1)=ifft_ysignal(i,[1:2048]); %出通道後的所有信號(時域)
             %有修正參數
-            hp([1:30],i)=inv(x_bar3(:,:,i)'*x_bar3(:,:,i)+10^-3.*eye(30))*x_bar3(:,:,i)'*yy;
+            hp([1:30],i)=inv(x_bar3(:,:,i)'*x_bar3(:,:,i)+10^-5.*eye(30))*x_bar3(:,:,i)'*yy;
             hp_ls=hp.';
 
         end
-        hp_ls([1:20],[31:2048])=0;% 估出來的點數為100點 我們補0到2048點 做FFT
+        hp_ls([1:20],[31:2048])=0;% 估出來的點數為30點 我們補0到2048點 做FFT
         for i = 1:num
             fft_HP_LS(i,[1:2048]) = fft(hp_ls(i,[1:2048]));
         end

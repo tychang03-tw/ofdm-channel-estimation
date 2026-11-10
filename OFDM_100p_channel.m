@@ -1,5 +1,5 @@
 % 主程式 OFDM 通道估測：四種方法 BER 比較（最大通道延遲 100 點）
-% 20 個 QPSK OFDM 符元（N = 2048、CP = 128、每 12 個子載波一個領航），20 組隨機多路徑通道 x SNR 1～20 dB；比較線性內插、DFT、傳統 LS（λ = 10^-5）、時域 LS（λ = 10^-3 與無修正參數）。衰減係數 α 在 g = exp(-α*[0:99]).*n 修改
+% 20 個 QPSK OFDM 符元（N = 2048、CP = 128、每 12 個子載波一個領航），20 組隨機多路徑通道 x SNR 1～20 dB；比較線性內插、DFT、傳統 LS（λ = 10^-5）、時域 LS（λ = 10^-5 與無修正參數）。衰減係數 α 在 g = exp(-α*[0:99]).*n 修改
 % 輸出：BER vs. SNR
 clear
 clc
@@ -77,7 +77,7 @@ end
 %20個通道
 for j = 1:20
     n = randn(1,100) + 1i * randn(1, 100);
-    g = exp(-0.05*[0:99]).*n;
+    g = exp(-0.001*[0:99]).*n;
     C = conv(c,g);
     E = (C*C')/43619;
     db = 1:20;
@@ -193,7 +193,7 @@ for j = 1:20
         h_ls=zeros(Le,OFDM_symbol_num);
         for i=1:OFDM_symbol_num
             hn([1:141],1)=H3(i,[1:141]);
-            h_ls([1:Le],i)=inv(f'*f+10^-3.*eye(Le))*f'*hn;
+            h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
         h_LS([1:OFDM_symbol_num],[101:OFDM_symbol_length])=0;%估出來的點數為100點 我們補0到2048點 做FFT
@@ -222,7 +222,7 @@ for j = 1:20
             ifft_ysignal(i,[1:2048])=ifft(ysignal(i,[1:2048]));
             yy([1:2048],1)=ifft_ysignal(i,[1:2048]); %出通道後的所有信號(時域)
             %有修正參數
-            hp([1:100],i)=inv(x_bar(:,:,i)'*x_bar(:,:,i)+10^-3.*eye(100))*x_bar(:,:,i)'*yy;
+            hp([1:100],i)=inv(x_bar(:,:,i)'*x_bar(:,:,i)+10^-5.*eye(100))*x_bar(:,:,i)'*yy;
             hp_ls=hp.';
             %沒有修正參數
             hp0([1:100],i)=inv(x_bar(:,:,i)'*x_bar(:,:,i))*x_bar(:,:,i)'*yy;
