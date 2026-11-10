@@ -112,7 +112,6 @@
 | 檔案 | 內容 |
 | --- | --- |
 | [`OFDM_100p_channel.m`](OFDM_100p_channel.m) | 主程式：最大延遲 100 點通道下，比較四種估測方法（含時域 LS 有無修正參數）的 BER |
-| [`OFDM_30p_channel.m`](OFDM_30p_channel.m) | 同上，通道最大延遲改為 30 點 |
 | [`Interpolation_DFT_LS.m`](Interpolation_DFT_LS.m) | 早期版本：比較線性內插、DFT、傳統 LS 三種方法 |
 | [`LS_LS2.m`](LS_LS2.m) | 比較傳統 LS 與時域 LS 在通道最大延遲 100 / 80 / 30 點時的 BER |
 | [`LS2_different_parameter.m`](LS2_different_parameter.m) | 時域 LS 法在不同修正參數（10⁻¹ ~ 10⁻⁵）下的效能比較；程式預設只執行 10⁻⁵ 與無修正參數，其他參數需手動取消註解（迴圈內對應的計算區塊與檔尾的畫圖段落） |

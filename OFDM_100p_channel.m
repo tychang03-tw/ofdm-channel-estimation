@@ -77,7 +77,7 @@ end
 %20個通道
 for j = 1:20
     n = randn(1,100) + 1i * randn(1, 100);
-    g = exp(-0.05*[0:99]).*n;
+    g = exp(-0.001*[0:99]).*n;
     C = conv(c,g);
     E = (C*C')/43619;
     db = 1:20;
@@ -289,46 +289,40 @@ LS_e=sum(error3)./20;
 LS2_e=sum(error4)./20;
 LS20_e=sum(error5)./20;
 
-% figure;
-% semilogy(db,errorLS2, 'b-',db,errorLS20, 'c-');
-% legend('加上修正參數','沒有加修正參數');
-% title('時域LS法錯誤率曲線圖');
-% xlabel('(dB)');
-% ylabel('(log)');
-% grid;
+figure;
+semilogy(db,LS2_e, 'b-',db,LS20_e, 'c-');
+legend('加上修正參數','沒有加修正參數');
+title('時域LS法錯誤率曲線圖');
+xlabel('SNR');
+ylabel('BER');
+grid;
 
 figure;
-semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,errorLS20, 'c-');
+semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,LS20_e, 'c-');
 title('錯誤率曲線圖');
-legend('Linear Interpolation Method','DFT Method','LS Method','Time Domain LS Method','Time Domain LS Method without correction parameter','Location','northwest');
-xlabel('(dB)');
-ylabel('(log)');
+legend('線性內插','DFT','LS','時域 LS','時域 LS 沒有加修正參數','Location','southwest');
+xlabel('SNR');
+ylabel('BER');
 grid;
 
 %----------------------------------------------------------------
 % 頻譜響應估測圖（預設不執行，需要時將下方程式碼取消註解）
 % 藍線：真實通道頻率響應（通道 g 補零至 2048 點後做 FFT）
 % 橙線：時域 LS 法估測的頻率響應（第 1 個 OFDM 符元）
-%       第一張圖為加上修正參數（fft_HP_LS），第二張圖為沒有修正參數（fft_HP_LS0）
+%
 % 註：迴圈結束後保留的是最後一個通道、SNR = 20 dB 時的結果
 %----------------------------------------------------------------
-%  a1=g;
-%  k=1:2048;
-% a1(2048)=0;
-% a1f=fft(a1);
-% figure;
-% plot(k,abs(a1f),k,abs(fft_HP_LS(1,:)));
-% title('頻譜響應估測圖');
-% ylabel('頻譜大小響應');
-% xlabel('第n個子載波');
-% grid;
-%
-% figure;
-% title('頻譜響應估測圖');
-% ylabel('頻譜大小響應');
-% xlabel('第n個子載波');
-% plot(k,abs(a1f),k,abs(fft_HP_LS0(1,:)));
-% grid;
+a1=g;
+k=1:2048;
+a1(2048)=0;
+a1f=fft(a1);
+figure;
+plot(k,abs(a1f),k,abs(H(1,:)));
+title('頻譜響應估測圖');
+ylabel('頻譜大小響應');
+xlabel('第n個子載波');
+grid;
+
 
 
 
