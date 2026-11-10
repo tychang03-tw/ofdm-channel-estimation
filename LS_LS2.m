@@ -466,18 +466,18 @@ LS2_e3=sum(error4)./20;
 
 figure;
 semilogy(db,LS_e1,'g-',db,LS_e2,'b-',db,LS_e3,'r-');
-title('錯誤率曲線圖');
+title('LS法錯誤率曲線圖');
 legend('最大通道延遲點數100點','最大通道延遲點數80點','最大通道延遲點數30點');
-xlabel('(dB)');
-ylabel('(log)');
+xlabel('SNR');
+ylabel('BER');
 grid;
 
 figure;
 semilogy(db,LS2_e1,'g-',db,LS2_e2,'b-',db,LS2_e3,'r-');
-title('錯誤率曲線圖');
+title('時域LS法錯誤率曲線圖');
 legend('最大通道延遲點數100點','最大通道延遲點數80點','最大通道延遲點數30點');
-xlabel('(dB)');
-ylabel('(BER)');
+xlabel('SNR');
+ylabel('BER');
 grid;
 
 

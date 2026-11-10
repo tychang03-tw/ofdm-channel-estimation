@@ -77,7 +77,7 @@ end
 %20個通道
 for j = 1:20
     n = randn(1,100) + 1i * randn(1, 100);
-    g = exp(-0.001*[0:99]).*n;
+    g = exp(-0.05*[0:99]).*n;
     C = conv(c,g);
     E = (C*C')/43619;
     db = 1:20;
@@ -298,9 +298,9 @@ ylabel('BER');
 grid;
 
 figure;
-semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-',db,LS20_e, 'c-');
+semilogy(db,Linear_e, 'g-',db,DFT_e, 'k-',db,LS_e,'m-',db,LS2_e, 'b-');
 title('錯誤率曲線圖');
-legend('線性內插','DFT','LS','時域 LS','時域 LS 沒有加修正參數','Location','southwest');
+legend('線性內插','DFT','LS','時域 LS','Location','southwest');
 xlabel('SNR');
 ylabel('BER');
 grid;
