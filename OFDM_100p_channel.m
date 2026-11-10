@@ -193,7 +193,7 @@ for j = 1:20
         h_ls=zeros(Le,OFDM_symbol_num);
         for i=1:OFDM_symbol_num
             hn([1:141],1)=H3(i,[1:141]);
-            h_ls([1:Le],i)=inv(f'*f+10^-5.*eye(Le))*f'*hn;
+            h_ls([1:Le],i)=inv(f'*f+10^-3.*eye(Le))*f'*hn;
             h_LS=h_ls.';
         end
         h_LS([1:OFDM_symbol_num],[101:OFDM_symbol_length])=0;%估出來的點數為100點 我們補0到2048點 做FFT
